@@ -6,18 +6,21 @@
 #define MAX 9
 
 //单个记录的结构体
+
 typedef struct {
     int key;
 }SqNote;
 
-
+//记录表的结构体 
 typedef struct {
     SqNote r[MAX];
     int length;
 }SqList;
 
+
 //交换两个记录的位置
-void swap(SqNote *a,SqNote *b){
+
+void swap(SqNote *a, SqNote *b){
     int key=a->key;
     a->key=b->key;
     b->key=key;
