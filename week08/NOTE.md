@@ -5,154 +5,104 @@
 
 #define MAX 9
 
-//单个记录的结构体
-
-typedef struct {
-    int key;
-}SqNote;
-
-//记录表的结构体 
-typedef struct {
-    SqNote r[MAX];
-    int length;
-}SqList;
 
 
 //交换两个记录的位置
-
-void swap(SqNote *a, SqNote *b){
-    int key=a->key;
-    a->key=b->key;
-    b->key=key;
+void swap(int *a, int *b){
+    int temp;
+    temp = *a;
+    *a = *b;
+    *b = temp;
 }
 
-一：堆排序
+//直接插入排序函数
+void InsertSort(int a[], int n)
+{
+    for(int i= 1; i<n; i++) {
 
-//将以 r[s]为根结点的子树构成堆，堆中每个根结点的值都比其孩子结点的值大
+		//若第 i 个元素大于 i-1 元素则直接插入；反之，需要找到适当的插入位置后在插入。
+        if(a[i] < a[i-1]) {
 
-void HeapAdjust(SqList * H,int s,int m){
-    SqNote rc=H->r[s];//先对操作位置上的结点数据进行保存，放置后序移动元素丢失。
+            int j= i-1;
+            int x = a[i];
 
-    //对于第 s 个结点，筛选一直到叶子结点结束
-    for (int j=2*s; j<=m; j*=2) {
+            while(j>-1 && x < a[j]){  
 
-        //找到值最大的孩子结点
-        if (j+1<m && (H->r[j].key<H->r[j+1].key)) {
-            j++;
+			//采用顺序查找方式找到插入的位置，在查找的同时，将数组中的元素进行后移操作，给插入元素腾出空间
+
+                a[j+1] = a[j];
+                j--;
+            }
+
+			//插入到正确位置
+            a[j+1] = x;          
+		}
+    }
+}
+
+//折半插入排序
+void BInsertSort(int a[],int size){
+
+    int i,j,low = 0,high = 0,mid;
+    int temp = 0;
+
+    for (i=1; i<size; i++) {
+
+        low=0;
+        high=i-1;
+        temp=a[i];
+
+        //采用折半查找法判断插入位置，最终变量 low 表示插入位置
+        while (low<=high) {
+
+            mid=(low+high)/2;
+
+            if (a[mid]>temp) {
+                high=mid-1;
+            } else {
+                low=mid+1;
+            }
         }
 
-        //如果当前结点比最大的孩子结点的值还大，则不需要对此结点进行筛选，直接略过
-        if (!(rc.key<H->r[j].key)) {
+        //有序表中插入位置后的元素统一后移
+        for (j=i; j>low; j--) {
+            a[j]=a[j-1];
+        }
+
+		//插入元素
+        a[low]=temp;
+    }
+}
+
+//冒泡排序
+void BubbleSort(int array[], int n)
+{
+	int i, j;
+
+    int key;
+
+    //有多少记录，就需要多少次冒泡，当比较过程，所有记录都按照升序排列时，排序结束
+    for (i = 0; i < n; i++){
+
+		//每次开始冒泡前，初始化 key 值为 0
+        key=0;
+
+        //每次起泡从下标为 0 开始，到 n-i 结束
+        for (j = 0; j+1 < n-i; j++){
+
+            if (array[j] > array[j+1]){
+                key=1;
+                swap(&array[j], &array[j+1]);
+            }
+
+        }
+
+        //如果 key 值为 0，表明表中记录排序完成
+        if (key==0) {
             break;
         }
-
-        //如果当前结点的值比孩子结点中最大的值小，则将最大的值移至该结点，由于 rc 记录着该结点的值，所以该结点的值不会丢失
-
-        H->r[s]=H->r[j];
-
-        s=j;//s相当于指针的作用，指向其孩子结点，继续进行筛选
-    }
-
-    H->r[s]=rc;//最终需将rc的值添加到正确的位置
-
-}
-
-void HeapSort(SqList *H){
-
-    //构建堆的过程
-    for (int i=H->length/2; i>0; i--) {
-
-        //对于有孩子结点的根结点进行筛选
-        HeapAdjust(H, i, H->length);
-
-    }
-
-    //通过不断地筛选出最大值，同时不断地进行筛选剩余元素
-    for (int i=H->length; i>1; i--) {
-
-        //交换过程，即为将选出的最大值进行保存大表的最后，同时用最后位置上的元素进行替换，为下一次筛选做准备
-        swap(&(H->r[1]), &(H->r[i]));
-
-        //进行筛选次最大值的工作
-        HeapAdjust(H, 1, i-1);
     }
 }
 
-//快速排序
 
-int Partition(SqList *L,int low,int high){
-
-    int pivotkey=L->r[low].key;
-
-    //直到两指针相遇，程序结束
-    while (low<high) {
-
-        //high指针左移，直至遇到比pivotkey值小的记录，指针停止移动
-        while (low<high && L->r[high].key>=pivotkey) {
-            high--;
-        }
-
-        //交换两指针指向的记录
-        swap(&(L->r[low]), &(L->r[high]));
-
-        //low 指针右移，直至遇到比pivotkey值大的记录，指针停止移动
-        while (low<high && L->r[low].key<=pivotkey) {
-            low++;
-        }
-
-        //交换两指针指向的记录
-        swap(&(L->r[low]), &(L->r[high]));
-
-    }
-    return low;
-}
-
-三：归并排序
-
-//SR中的记录分成两部分：下标从 i 至 m 有序，从 m+1 至 n 也有序，此函数的功能是合二为一至TR数组中，使整个记录表有序
-
-void Merge(SqNode SR[],SqNode TR[],int i,int m,int n){
-    int j,k;
-
-    //将SR数组中的两部分记录按照从小到大的顺序添加至TR数组中
-    for (j=m+1,k=i; i<=m && j<=n; k++) {
-        if (SR[i].key<SR[j].key) {
-            TR[k]=SR[i++];
-        } else {
-            TR[k]=SR[j++];
-        }
-    }
-
-    //将剩余的比目前TR数组中都大的记录复制到TR数组的最后位置
-    while(i<=m) {
-        TR[k++]=SR[i++];
-    }
-
-    while (j<=n) {
-        TR[k++]=SR[j++];
-    }
-}
-
-void MSort(SqNode SR[],SqNode TR1[],int s,int t){
-
-    SqNode TR2[MAX];
-
-    //递归的出口
-    if (s==t) {
-		TR1[s]=SR[s];
-    } else {
-        int m=(s+t)/2;//每次递归将记录表中记录平分，直至每个记录各成一张表
-
-        MSort(SR, TR2, s, m);//将分开的前半部分表中的记录进行排序
-
-        MSort(SR,TR2, m+1, t);//将后半部分表中的记录进行归并排序
-
-        Merge(TR2,TR1,s,m, t);//最后将前半部分和后半部分中的记录统一进行排序
-    }
-}
-
-//归并排序
-void MergeSort(SqList *L){
-    MSort(L->r,L->r,1,L->length);
-}
 
