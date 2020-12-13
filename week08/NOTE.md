@@ -1,3 +1,4 @@
+
 学习笔记
 
 排序代码：
@@ -9,7 +10,7 @@ typedef struct {
     int key;
 }SqNote;
 
-//记录表的结构体
+
 typedef struct {
     SqNote r[MAX];
     int length;
@@ -25,8 +26,8 @@ void swap(SqNote *a,SqNote *b){
 一：堆排序
 
 //将以 r[s]为根结点的子树构成堆，堆中每个根结点的值都比其孩子结点的值大
-void HeapAdjust(SqList * H,int s,int m){
 
+void HeapAdjust(SqList * H,int s,int m){
     SqNote rc=H->r[s];//先对操作位置上的结点数据进行保存，放置后序移动元素丢失。
 
     //对于第 s 个结点，筛选一直到叶子结点结束
@@ -74,7 +75,7 @@ void HeapSort(SqList *H){
     }
 }
 
-二：快速排序
+//快速排序
 
 int Partition(SqList *L,int low,int high){
 
@@ -106,6 +107,7 @@ int Partition(SqList *L,int low,int high){
 三：归并排序
 
 //SR中的记录分成两部分：下标从 i 至 m 有序，从 m+1 至 n 也有序，此函数的功能是合二为一至TR数组中，使整个记录表有序
+
 void Merge(SqNode SR[],SqNode TR[],int i,int m,int n){
     int j,k;
 
@@ -129,10 +131,12 @@ void Merge(SqNode SR[],SqNode TR[],int i,int m,int n){
 }
 
 void MSort(SqNode SR[],SqNode TR1[],int s,int t){
+
     SqNode TR2[MAX];
+
     //递归的出口
     if (s==t) {
-        TR1[s]=SR[s];
+		TR1[s]=SR[s];
     } else {
         int m=(s+t)/2;//每次递归将记录表中记录平分，直至每个记录各成一张表
 
