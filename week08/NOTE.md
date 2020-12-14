@@ -8,6 +8,7 @@
 
 
 //交换两个记录的位置
+
 void swap(int *a, int *b){
     int temp;
     temp = *a;
@@ -15,7 +16,8 @@ void swap(int *a, int *b){
     *b = temp;
 }
 
-//直接插入排序函数
+//直接插入排序
+
 void InsertSort(int a[], int n)
 {
     for(int i= 1; i<n; i++) {
@@ -41,6 +43,7 @@ void InsertSort(int a[], int n)
 }
 
 //折半插入排序
+
 void BInsertSort(int a[],int size){
 
     int i,j,low = 0,high = 0,mid;
@@ -75,6 +78,7 @@ void BInsertSort(int a[],int size){
 }
 
 //冒泡排序
+
 void BubbleSort(int array[], int n)
 {
 	int i, j;
