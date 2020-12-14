@@ -10,9 +10,13 @@
 //交换两个记录的位置
 
 void swap(int *a, int *b){
+
     int temp;
+
     temp = *a;
+
     *a = *b;
+
     *b = temp;
 }
 
@@ -20,6 +24,7 @@ void swap(int *a, int *b){
 
 void InsertSort(int a[], int n)
 {
+
     for(int i= 1; i<n; i++) {
 
 		//若第 i 个元素大于 i-1 元素则直接插入；反之，需要找到适当的插入位置后在插入。
@@ -66,21 +71,19 @@ void BInsertSort(int a[],int size){
                 low=mid+1;
             }
         }
-
         //有序表中插入位置后的元素统一后移
         for (j=i; j>low; j--) {
             a[j]=a[j-1];
         }
-
 		//插入元素
         a[low]=temp;
     }
 }
 
 //冒泡排序
-
 void BubbleSort(int array[], int n)
 {
+
 	int i, j;
 
     int key;
@@ -100,13 +103,10 @@ void BubbleSort(int array[], int n)
             }
 
         }
-
         //如果 key 值为 0，表明表中记录排序完成
         if (key==0) {
             break;
         }
     }
 }
-
-
 
